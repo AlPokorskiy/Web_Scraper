@@ -43,7 +43,7 @@ def save_jsonl(posts, output_file):
             if emojis == "Yes":
                 file.write(json.dumps({"messages": [
                     {"role": "system", "content": "You are a helpful and chatbot, and you are great at writing posts."},
-                    {"role": "user", "content": f"Please create a post for a {tag_options} for {page_options} and emojis"},
+                    {"role": "user", "content": f"Please create a post for {tag_options} for {page_options} and include emojis"},
                     {"role": "assistant", "content": post}]}))
 
                 file.write("\n")
@@ -59,7 +59,6 @@ def save_jsonl(posts, output_file):
 
 if __name__ == "__main__" and upload_file is not None:
     data = upload_file.getvalue()
-
     stringio = StringIO(upload_file.getvalue().decode("utf-8"))
     st.write("Name: ", upload_file.name)
     st.write("Status: Complete upload")
@@ -67,6 +66,6 @@ if __name__ == "__main__" and upload_file is not None:
     content = stringio.read()
 
     btn_save = st.button("Save as JSONL", type="primary",
-                         on_click=save_jsonl(extract_html(content), "dataset.jsonl"))
+                         on_click=save_jsonl(extract_html(content), f"{tag_options}_dataset.jsonl"))
 else:
     st.write("Status: Failed to upload, awaiting upload")
